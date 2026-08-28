@@ -52,13 +52,10 @@ public partial class MainWindow : Window
         }
         catch
         {
-            // Fallback gracefully if icon loading fails or file format is unsupported on current OS
+            // Ignore icon load failure
         }
     }
 
-    // ============================================================
-    // Input / output pickers
-    // ============================================================
     private async void OnBrowseInput(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         var files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
@@ -114,9 +111,6 @@ public partial class MainWindow : Window
         }
     }
 
-    // ============================================================
-    // Pnach list management
-    // ============================================================
     private async void OnAddPnachFiles(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         var files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
@@ -151,9 +145,6 @@ public partial class MainWindow : Window
             _pnachPaths.Remove(item);
     }
 
-    // ============================================================
-    // Patch
-    // ============================================================
     private async void OnPatchClicked(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         if (_inputPath is null)
@@ -188,8 +179,6 @@ public partial class MainWindow : Window
         string mastercodeLine = MastercodeBox.Text ?? "";
         bool isIso = _isIso;
 
-        // Route the console app's Console.WriteLine progress output into
-        // the log box instead of duplicating its logging here.
         var originalOut = Console.Out;
         Console.SetOut(new TextBoxWriter(this));
 
@@ -228,8 +217,6 @@ public partial class MainWindow : Window
         });
     }
 
-    // Forwards Console.Write/WriteLine calls made by the patch engine
-    // (CheatPatcher.Program) into this window's log box.
     private sealed class TextBoxWriter : TextWriter
     {
         private readonly MainWindow _owner;

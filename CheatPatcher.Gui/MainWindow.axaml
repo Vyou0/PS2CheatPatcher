@@ -56,7 +56,7 @@
                 </Border>
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock Text="Cheat Patcher" FontSize="18" FontWeight="Bold" />
-                    <TextBlock Text="PS2 Executable &amp; ISO Cheat Injector" FontSize="11" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                    <TextBlock Text="PS2 Executable &amp; ISO Cheat Patcher" FontSize="11" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
                 </StackPanel>
             </StackPanel>
 
@@ -90,7 +90,7 @@
             <Border Classes="card">
                 <Expander Header="3. CodeBreaker Mastercode (Optional)" HorizontalAlignment="Stretch" Padding="0">
                     <StackPanel Spacing="6" Margin="0,8,0,0">
-                        <TextBlock Text="Hooks sceSifSendCmd so cheats execute every frame. Format: AAAAAAAA VVVVVVVV."
+                        <TextBlock Text="Format: AAAAAAAA VVVVVVVV."
                                    Classes="subHeader" />
                         <TextBox x:Name="MastercodeBox" Watermark="e.g. 20AABBCC 00000000" />
                     </StackPanel>
