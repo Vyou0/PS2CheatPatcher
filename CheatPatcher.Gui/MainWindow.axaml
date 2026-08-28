@@ -1,0 +1,141 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="CheatPatcher.Gui.MainWindow"
+        Title="Cheat Patcher"
+        Width="740" Height="540"
+        MinWidth="480" MinHeight="360"
+        CanResize="True"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Styles>
+        <Style Selector="Border.card">
+            <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource SystemControlForegroundBaseLowBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="14"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+        </Style>
+        <Style Selector="TextBox">
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="MinHeight" Value="34"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="Button">
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="MinHeight" Value="34"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="Button.primary">
+            <Setter Property="Background" Value="{DynamicResource SystemControlHighlightAccentBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource SystemControlHighlightAltBaseHighBrush}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style Selector="TextBlock.sectionHeader">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+        <Style Selector="TextBlock.subHeader">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Margin" Value="0,0,0,6"/>
+        </Style>
+    </Window.Styles>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="16">
+
+            <!-- App Header Banner -->
+            <StackPanel Margin="0,4,0,16" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                <Border Width="36" Height="36" CornerRadius="8" Background="{DynamicResource SystemControlHighlightAccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="🔧" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
+                </Border>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="Cheat Patcher" FontSize="18" FontWeight="Bold" />
+                    <TextBlock Text="PS2 Executable &amp; ISO Cheat Injector" FontSize="11" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                </StackPanel>
+            </StackPanel>
+
+            <!-- 1) Input file card -->
+            <Border Classes="card">
+                <StackPanel Spacing="6">
+                    <TextBlock Text="1. Input ELF or ISO File" Classes="sectionHeader" />
+                    <Grid ColumnDefinitions="*,10,100">
+                        <TextBox Grid.Column="0" x:Name="InputPathBox" IsReadOnly="True"
+                                 Watermark="Select .elf or .iso file..." />
+                        <Button Grid.Column="2" Content="Browse..." Click="OnBrowseInput" HorizontalAlignment="Stretch" />
+                    </Grid>
+                    <TextBox x:Name="ElfNameBox" IsVisible="False"
+                             Watermark="ELF filename inside ISO (e.g. SLUS_216.21)" Margin="0,4,0,0" />
+                </StackPanel>
+            </Border>
+
+            <!-- 2) Output card -->
+            <Border Classes="card">
+                <StackPanel Spacing="6">
+                    <TextBlock x:Name="OutputLabel" Text="2. Output ELF path" Classes="sectionHeader" />
+                    <Grid ColumnDefinitions="*,10,100">
+                        <TextBox Grid.Column="0" x:Name="OutputPathBox" IsReadOnly="True"
+                                 Watermark="Select destination output path..." />
+                        <Button Grid.Column="2" Content="Browse..." Click="OnBrowseOutput" HorizontalAlignment="Stretch" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- 3) Mastercode card (optional) -->
+            <Border Classes="card">
+                <Expander Header="3. CodeBreaker Mastercode (Optional)" HorizontalAlignment="Stretch" Padding="0">
+                    <StackPanel Spacing="6" Margin="0,8,0,0">
+                        <TextBlock Text="Hooks sceSifSendCmd so cheats execute every frame. Format: AAAAAAAA VVVVVVVV."
+                                   Classes="subHeader" />
+                        <TextBox x:Name="MastercodeBox" Watermark="e.g. 20AABBCC 00000000" />
+                    </StackPanel>
+                </Expander>
+            </Border>
+
+            <!-- 4) Pnach list card -->
+            <Border Classes="card">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="4. .pnach Files &amp; Folders" Classes="sectionHeader" />
+                    <Border BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" BorderThickness="1" CornerRadius="6" ClipToBounds="True">
+                        <ListBox x:Name="PnachList" Height="100" SelectionMode="Multiple" Background="Transparent" />
+                    </Border>
+                    <Grid ColumnDefinitions="*,8,*,8,*">
+                        <Button Grid.Column="0" Content="Add File(s)..." Click="OnAddPnachFiles" HorizontalAlignment="Stretch" />
+                        <Button Grid.Column="2" Content="Add Folder..." Click="OnAddPnachFolder" HorizontalAlignment="Stretch" />
+                        <Button Grid.Column="4" Content="Remove Selected" Click="OnRemovePnach" HorizontalAlignment="Stretch" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Patch button -->
+            <Button x:Name="PatchButton" Content="Patch Executable / ISO"
+                    Classes="primary"
+                    HorizontalAlignment="Stretch" Height="42"
+                    Margin="0,4,0,12"
+                    Click="OnPatchClicked" />
+
+            <!-- Log output & status section -->
+            <Border Classes="card" Margin="0">
+                <StackPanel Spacing="6">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Grid.Column="0" Text="Patch Log Output" Classes="sectionHeader" Margin="0" />
+                        <TextBlock Grid.Column="1" x:Name="StatusText" FontSize="11" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" VerticalAlignment="Center" />
+                    </Grid>
+                    <Border BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" BorderThickness="1" CornerRadius="6" Background="{DynamicResource SystemControlBackgroundAltHighBrush}" Height="130">
+                        <ScrollViewer Margin="4">
+                            <TextBox x:Name="LogBox" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap"
+                                     FontFamily="Consolas,Menlo,monospace" FontSize="11"
+                                     BorderThickness="0" Background="Transparent" />
+                        </ScrollViewer>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</Window>

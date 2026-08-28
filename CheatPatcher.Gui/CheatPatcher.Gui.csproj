@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>CheatPatcherGui</AssemblyName>
+    <RootNamespace>CheatPatcher.Gui</RootNamespace>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+
+    <!-- Same cross-platform targets as the console tool. -->
+    <RuntimeIdentifiers>win-x64;linux-x64;osx-x64</RuntimeIdentifiers>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <PublishTrimmed>false</PublishTrimmed>
+    <ApplicationIcon Condition="Exists('icon.ico')">icon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="**\*.axaml" />
+    <AvaloniaResource Include="icon.ico" Condition="Exists('icon.ico')" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.1.3" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.1.3" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.1.3" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Pulls in the patch engine (RunIso/RunElf/HookConfig) via
+         InternalsVisibleTo declared in CheatPatcher's Program.cs.
+         Its own Main() is simply never invoked from this app. -->
+    <ProjectReference Include="..\CheatPatcher\CheatPatcher.csproj" />
+  </ItemGroup>
+
+</Project>

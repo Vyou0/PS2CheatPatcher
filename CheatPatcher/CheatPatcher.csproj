@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>CheatPatcher</AssemblyName>
+    <RootNamespace>CheatPatcher</RootNamespace>
+    <InvariantGlobalization>true</InvariantGlobalization>
+
+    <!-- Single-file publish settings. A RuntimeIdentifier (RID) is
+         required for PublishSingleFile, so a set of common ones is
+         listed here; pick one at publish time with -r, e.g.:
+           dotnet publish -c Release -r win-x64
+           dotnet publish -c Release -r linux-x64
+           dotnet publish -c Release -r osx-x64
+         SelfContained/PublishSingleFile are on by default below so a
+         plain "dotnet publish -r <rid>" already produces one .exe/binary
+         with no extra flags needed. -->
+    <RuntimeIdentifiers>win-x64;linux-x64;osx-x64</RuntimeIdentifiers>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <!-- Trimming is deliberately left off: DiscUtils.Iso9660 relies on
+         some reflection-driven registration, and trimming can silently
+         break ISO reading at runtime without a compile-time warning. -->
+    <PublishTrimmed>false</PublishTrimmed>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="DiscUtils.Iso9660" Version="0.16.13" />
+  </ItemGroup>
+
+</Project>
